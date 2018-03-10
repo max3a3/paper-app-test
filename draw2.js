@@ -1,14 +1,15 @@
-var paper = require('paper');
-var canvas = document.getElementById('myCanvas');
+const paper = require('paper');
+const {Path, Point} = require('paper');
+const canvas = document.getElementById('myCanvas');
 
-console.log(paper);
 paper.setup(canvas);
 console.log(canvas);
-var newpath = new paper.Path({
+var newpath = new Path({
   strokeColor: 'black'
 });
-var p1 = new paper.Point(100,100);
-var p2 = new paper.Point(200,200);
+var p1 = new Point(100,100);
+var p2 = new Point(200,200);
+p1.selected = true;
 newpath.add(p1);
 newpath.add(p2);
 // newpath.moveTo(p1);
@@ -16,17 +17,17 @@ newpath.add(p2);
 console.log(newpath);
 console.log(p1);
 console.log(p2);
-canvas.on('click',function(){
-  onMouseDown();
-});
-function onMouseDown(event){
-  console.log('pressed!');
-}
-function drawBaseline(){
-  let baseline = new Path({
-
-  })
-}
+// canvas.on('click',function(){
+//   onMouseDown();
+// });
+// function onMouseDown(event){
+//   console.log('pressed!');
+// }
+// function drawBaseline(){
+//   let baseline = new Path({
+//
+//   })
+// }
 // canvas.offsetWidth = window.innerWidth;
 // canvas.offsetHeight = window.innerHeight;
 // canvas.setAttribute("width", window.innerWidth);
