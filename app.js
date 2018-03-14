@@ -2,7 +2,7 @@ const {app, BrowserWindow} = require('electron');
 const path = require('path');
 const locals = {};
 const pug = require('electron-pug')({pretty: true}, locals);
-
+newFunction();
 //Open Main window(first)
 app.on('ready', ()=>{
   let mainWindow = new BrowserWindow({
@@ -20,3 +20,7 @@ app.on('ready', ()=>{
     mainWindow.show();
   })
 });
+function newFunction() {
+  console.log(this);
+}
+
