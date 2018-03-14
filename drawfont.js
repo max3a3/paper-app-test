@@ -1,13 +1,5 @@
-const paper = require('paper');
-const {Path, Point} = require('paper');
-const opentype = require('opentype.js')
-// const font = require('./node_modules/opentype.js/src/font.js');
-// const opentype = require('./lib/dist/opentype.js');
+// const paper = require('paper');
+// const {Path, Point} = require('paper');
+// window.fontkit = require('fontkit');
+// window.opentype = require('opentype.js');
 // console.log(opentype);
-console.log(paper);
-console.log(this);
-console.log(opentype);
-
-var canvas = document.getElementById('myCanvas');
-
-paper.setup(canvas);

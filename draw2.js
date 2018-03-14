@@ -3,7 +3,7 @@ const {Path, Point} = require('paper');
 const canvas = document.getElementById('myCanvas');
 
 paper.setup(canvas);
-console.log(canvas);
+
 var newpath = new Path({
   strokeColor: 'black'
 });

@@ -2,7 +2,8 @@ const {app, BrowserWindow} = require('electron');
 const path = require('path');
 const locals = {};
 const pug = require('electron-pug')({pretty: true}, locals);
-newFunction();
+var opentype = require('opentype.js');
+
 //Open Main window(first)
 app.on('ready', ()=>{
   let mainWindow = new BrowserWindow({
@@ -18,9 +19,7 @@ app.on('ready', ()=>{
   //show when ready to show
   mainWindow.on('ready-to-show', () => {
     mainWindow.show();
+    mainWindow.openDevTools();
   })
-});
-function newFunction() {
-  console.log(this);
-}
 
+});
