@@ -14,9 +14,9 @@ newpath.add(p1);
 newpath.add(p2);
 // newpath.moveTo(p1);
 // newpath.lineTo(p2);
-console.log(newpath);
-console.log(p1);
-console.log(p2);
+// console.log(newpath);
+// console.log(p1);
+// console.log(p2);
 // canvas.on('click',function(){
 //   onMouseDown();
 // });

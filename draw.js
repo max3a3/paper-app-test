@@ -1,9 +1,9 @@
 var paper = require('paper');
 var canvas = document.getElementById('myCanvas');
 
-console.log(paper);
-paper.setup(canvas);
-console.log(canvas);
+// console.log(paper);
+// paper.setup(canvas);
+// console.log(canvas);
 var newpath = new paper.Path({
   strokeColor: 'black'
 });
@@ -13,9 +13,9 @@ newpath.add(p1);
 newpath.add(p2);
 // newpath.moveTo(p1);
 // newpath.lineTo(p2);
-console.log(newpath);
-console.log(p1);
-console.log(p2);
+// console.log(newpath);
+// console.log(p1);
+// console.log(p2);
 canvas.on('click',function(){
   onMouseDown();
 });

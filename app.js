@@ -2,7 +2,7 @@ const {app, BrowserWindow} = require('electron');
 const path = require('path');
 const locals = {};
 const pug = require('electron-pug')({pretty: true}, locals);
-var opentype = require('opentype.js');
+const opentype = require('opentype.js');
 
 //Open Main window(first)
 app.on('ready', ()=>{
@@ -11,7 +11,6 @@ app.on('ready', ()=>{
     show: false,
     width: 800,
     height: 800,
-    
     fullscreenWindowTitle: true,
     icon: './'
   });
@@ -19,7 +18,11 @@ app.on('ready', ()=>{
   //show when ready to show
   mainWindow.on('ready-to-show', () => {
     mainWindow.show();
+    //install devtron to devtools
+    //@only for development
+    require('devtron').install();
     mainWindow.openDevTools();
+    mainWindow.webContents.send('init-opentype', opentype);
   })
 
 });
