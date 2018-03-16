@@ -2,7 +2,7 @@ const {app, BrowserWindow} = require('electron');
 const path = require('path');
 const locals = {};
 const pug = require('electron-pug')({pretty: true}, locals);
-const opentype = require('opentype.js');
+global.opentype = require('opentype.js');
 
 //Open Main window(first)
 app.on('ready', ()=>{
