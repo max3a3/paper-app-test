@@ -10,7 +10,7 @@ app.on('ready', ()=>{
     //do not show at first
     show: false,
     width: 800,
-    height: 800,
+    height: 600,
     fullscreenWindowTitle: true,
     icon: './'
   });

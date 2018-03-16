@@ -1,0 +1,45 @@
+.info{
+  justify-content: center;
+}
+
+.search{
+  align-items: center;
+}
+
+.wrapper{
+  width:100%;
+  height:100%;
+  margin: auto;
+}
+
+.file{
+  height: 40px;
+  width: 100%;
+}
+
+body div{
+  background-color: #333;
+}
+
+
+body{
+  margin: 0px;
+  display: grid;
+  grid-template-rows: 40px auto;
+  /* align-items: center;
+  justify-content: center; */
+
+  color: white;
+  text-align: center;
+  width:100vw;
+  height:100vh;
+
+  font-family: 'Nanum Barun Gothic', sans-serif;
+}
+#myCanvas{
+  width:100%;
+  height:100%;
+  background-color: #eee;
+}
+
+
