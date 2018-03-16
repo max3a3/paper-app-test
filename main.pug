@@ -4,8 +4,21 @@ html
     link(rel="stylesheet", href="./style.css")
     title paper.js test
   body
+    .file
+      button(id="load-default") Load Default
+      input(id="file", type="file")
     //- canvas(id="myCanvas")
-    button(id="load-default") Load Default
-    input(id="file", type="file")
-script(type='text/javascript',src="draw2.js")
+    .wrapper
+      .search
+        input(name="search",type="text", placeholder="검색")
+        label(for="search") 검색
+        .search-selection
+          .first-bar 초성
+          .first
+          .second-bar 중성
+          .second
+          .third-bar 종성
+          .third
+      .info
+//- script(type='text/javascript',src="draw2.js")
 script(type='text/javascript',src="drawfont.js")
