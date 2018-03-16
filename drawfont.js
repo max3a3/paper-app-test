@@ -4,8 +4,25 @@ console.log(opentype);
 
 var font;
 
+document.getElementById('load-default').addEventListener('click', function(){
+    loadFont();
+})
+
 function loadFont(){
-    let font = opentype.Font.loadSync();
+    window.font = opentype.loadSync('fonts/SDGTM.ttf');
+    
+    console.log(font);
+    listAll(font);
+}
+
+function listAll(o){
+    if(typeof o === 'Object'){
+        for(each in o){
+            listAll(o[each]);
+        }
+    } else {
+        console.log(o)
+    }
 }
 
 function onReadFile(e) {

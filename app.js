@@ -22,7 +22,7 @@ app.on('ready', ()=>{
     //@only for development
     require('devtron').install();
     mainWindow.openDevTools();
-    mainWindow.webContents.send('init-opentype', opentype);
+    // mainWindow.webContents.send('init-opentype', opentype);
   })
 
 });
