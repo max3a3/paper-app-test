@@ -12,11 +12,11 @@ function loadFont(){
     window.font = opentype.loadSync('fonts/SDGTM.ttf');
     
     console.log(font);
-    listAll(font);
+    listAll(font.names);
 }
 
 function listAll(o){
-    if(typeof o === 'Object'){
+    if(typeof o === 'object'){
         for(each in o){
             listAll(o[each]);
         }
