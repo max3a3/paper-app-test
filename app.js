@@ -9,8 +9,9 @@ app.on('ready', ()=>{
   let mainWindow = new BrowserWindow({
     //do not show at first
     show: false,
-    width: 800,
-    height: 600,
+    width: 1200,
+    height: 765,
+    // resizable: false,
     fullscreenWindowTitle: true,
     icon: './'
   });
