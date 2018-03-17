@@ -1,36 +1,33 @@
 doctype html
 html
   head
-    link(rel="stylesheet", href="./style/css/materialize.css")
+    //- link(rel="stylesheet", href="./style/css/materialize.css")
     link(rel="stylesheet", href="./style/style.css")
     title Moum
   body
-    .nav-wrapper.yellow.lighten-2
-      .brand-logo Moum
-      ul#nav-mobile.right.hide-on-med-and-down
+    .nav-wrapper
+      span.brand-logo Moum
+      ul#nav-mobile
         li
           a(href='#') Help
         li
           a(href='#') Load New
         li
           a(href='#') My Fonts
-    .file
-      input(id="file", type="file")
-      .load(id="load-default") Load Default
     //- canvas(id="myCanvas")
-    .wrapper
-      .search
-        input(name="search",type="text", placeholder="검색")
-        label(for="search") 검색
+    .main-wrapper
+      .menu-left
+        input.search(name="search",type="text", placeholder="Search Glyphs")
         .search-selection
-          .first-bar 초성
+          .bar 초성
           .first
-          .second-bar 중성
+          .bar 중성
           .second
-          .third-bar 종성
+          .bar 종성
           .third
-      .info
+      .main-canvas
+      .menu-right
 //- script(type='text/javascript',src="draw2.js")
 script(type='text/javascript',src="drawfont.js")
 //- script(type='text/javascript',src='./style/js/jquery-3.3.1.min.js')
-script(type='text/javascript',src='./style/js/materialize.js')
+//- script(type='text/javascript',src='./style/js/materialize.js')

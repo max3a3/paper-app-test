@@ -1,17 +1,21 @@
 const remote = require('electron').remote;
-var opentype = remote.getGlobal('opentype');
+const opentype = remote.getGlobal('opentype');
+const path = require('path');
+const jquery = $ = require('jquery');
 console.log(opentype);
 
-var font;
+let font;
+let fontFileName = 'fonts/SDGTM.ttf';
+
+loadFont(fontFileName);
 
 document.getElementById('load-default').addEventListener('click', function(){
-    loadFont();
-})
+    loadFont(fontFileName);
+});
 
-function loadFont(){
-    window.font = opentype.loadSync('fonts/SDGTM.ttf');
-    
-    console.log(font);
+function loadFont(fontFileName){
+    font = opentype.loadSync(fontFileName);
+    console.log('loaded ', font.names.fontFamily.en, font.names.fontFamily.ko);
     listAll(font.names);
 }
 
@@ -27,23 +31,26 @@ function listAll(o){
 
 function onReadFile(e) {
     // document.getElementById('font-name').innerHTML = '';
-    var file = e.target.files[0];
+    var temp = e.target.files[0];
     var reader = new FileReader();
     reader.onload = function(e) {
         try {
+            console.log('try');
             var font = opentype.parse(e.target.result);
             onFontLoaded(font);
             // showErrorMessage('');
         } catch (err) {
+            console.log('catch');
             // showErrorMessage(err.toString());
             if (err.stack) console.log(err.stack);
-	    throw(err);
+        throw(err);
+        console.log('throw');
         }
     };
     reader.onerror = function(err) {
         showErrorMessage(err.toString());
     };
-    reader.readAsArrayBuffer(file);
+    reader.readAsArrayBuffer(temp);
 }
 
 function onFontLoaded(font) {

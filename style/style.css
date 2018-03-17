@@ -1,20 +1,61 @@
-.info{
-  justify-content: center;
+
+.search-selection div{
+
+  border: var(--color3) solid 0.1px;
+}
+
+.search-selection .bar{
+  height: 45px;
 }
 
 .search{
-  align-items: center;
-}
-
-.wrapper{
-  width:100%;
-  height:100%;
-  margin: auto;
-}
-
-.file{
-  height: 40px;
+  border: none;
+  border-bottom: 2px solid #9e9e9e;
+  box-shadow: none;
+  min-height: 25px;
+  outline: none;
+  transition: all .3s;
   width: 100%;
+  padding: 5px;
+  background-color: var(--none);
+}
+
+.main-canvas{
+  background-color: var(--color0);
+}
+
+.menu-right{
+  background-color: var(--color1);
+}
+
+.menu-left{
+  background-color: var(--color1);
+}
+
+.main-wrapper{
+  display: grid;
+  grid-template-columns: 270px auto 350px;
+  width: 100%;
+  height: auto;
+  align-items: stretch;
+}
+
+.nav-wrapper .brand-logo{
+  justify-self: left;
+}
+.nav-wrapper ul{
+  justify-self: right;
+}
+.nav-wrapper ul li {
+  display: inline;
+}
+.nav-wrapper{
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  height: 50px;
+  z-index: 2;
+  background-color: var(--color5);
 }
 
 body div{
@@ -25,16 +66,16 @@ body div{
 body{
   margin: 0px;
   display: grid;
-  grid-template-rows: 40px auto;
+  grid-template-rows: 50px auto;
   /* align-items: center;
   justify-content: center; */
 
-  color: white;
+  color: gray;
   text-align: center;
   width:100vw;
   height:100vh;
 
-  font-family: 'Nanum Barun Gothic', sans-serif;
+  font-family: "KoreanFont", sans-serif;
 }
 #myCanvas{
   width:100%;
@@ -43,3 +84,17 @@ body{
 }
 
 
+@font-face {
+  font-family: "KoreanFont";
+  src: url(fonts/NamunBarunGothic.woff);
+}
+
+:root {
+  --color0: white;
+  --color1: #fbfbf5;
+  --color2: #f8f7e7;
+  --color3: #faf7d7;
+  --color4: #fff9bf;
+  --color5: #fff59c;
+  --none: rgba(255,255,255,0);
+}
