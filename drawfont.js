@@ -61,3 +61,14 @@ function onFontLoaded(font) {
 
 var fileButton = document.getElementById('file');
 fileButton.addEventListener('change', onReadFile, false);
+
+//index selection toggle
+var indexButtons = document.querySelectorAll('.index-button')
+indexButtons.addEventListener('mousedown', ()=>{
+    console.log('clicked');
+    this.classList.add('index-selected');
+}, false);
+document.querySelectorAll('.index-selected').addEventListener('click', ()=>{
+    console.log('clicked');
+    this.classList.remove('index-selected');
+}, false);
