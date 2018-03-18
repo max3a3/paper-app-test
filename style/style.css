@@ -1,5 +1,6 @@
-.tables{
-  display: none;
+.display-none{
+  display: none !important;
+  transition-duration: 0.3s;
 }
 
 .menu-tab:hover{
@@ -9,7 +10,9 @@
   line-height: 50px;
 }
 .menu-selection .selected{
-  background-color: var(--color4);
+  background-color: var(--color0);
+  border: solid 1px #EEE;
+  border-bottom: none;
 }
 
 .menu-selection{
@@ -21,6 +24,9 @@
 
 .menu-right .bar:hover{
   background-color: lightgray;
+}
+.menu-right .bar{
+  background-color: var(--color0);
 }
 .index-selected {
   background-color: var(--color4);
