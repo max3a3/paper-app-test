@@ -18,27 +18,43 @@ let glyphMenu = document.getElementById('glyph-menu');
 let fontinfoMenu = document.getElementById('info-menu');
 let fonttableMenu = document.getElementById('table-menu');
 
-let clickTAB1 = function (){
-    console.log('glyphs TAB clicked');
-    glyphTAB.classList.add('selected');
-    glyphMenu.classList.remove('display-none');
-    fontinfoMenu.classList.add('display-none');
-    fonttableMenu.classList.add('display-none');
-};
-let clickTAB2 = function (){
-    console.log('font info TAB clicked');
-    fontinfoTAB.classList.add('selected');
-    fontinfoMenu.classList.remove('display-none');
-    glyphMenu.classList.add('display-none');
-    fonttableMenu.classList.add('display-none');
-};
-let clickTAB2 = function (){
-    console.log('font info TAB clicked');
-    fonttableTAB.classList.add('selected');
-    fonttableMenu.classList.remove('display-none');
-    glyphMenu.classList.add('display-none');
-    fontinfoMenu.classList.add('display-none');
-};
+let rightMenuTabs = document.querySelectorAll('.menu-selection div');
+for(var i = 0; i < rightMenuTabs.length; i++){
+    rightMenuTabs[i].addEventListener('click', clickTab(i));
+}
+
+function clickTab(index){
+    for(var i = 0; i < rightMenuTabs.length; i++){
+        rightMenuTabs[i].classList.remove('selected');
+        document.querySelector('.menu-right div').children[i].classList.add('display-none');
+    }
+    rightMenuTabs[index].classList.add('selected');
+    document.querySelector('.menu-right div')[index].classList.remove('display-none');
+}
+
+// let clickTAB1 = function (){
+//     console.log('glyphs TAB clicked');
+//     glyphTAB.classList.add('selected');
+//     fontinfoMenu.classList.remove('selected');
+//     fonttableMenu.classList.remove('selected');
+//     glyphMenu.classList.remove('display-none');
+//     fontinfoMenu.classList.add('display-none');
+//     fonttableMenu.classList.add('display-none');
+// };
+// let clickTAB2 = function (){
+//     console.log('font info TAB clicked');
+//     fontinfoTAB.classList.add('selected');
+//     fontinfoMenu.classList.remove('display-none');
+//     glyphMenu.classList.add('display-none');
+//     fonttableMenu.classList.add('display-none');
+// };
+// let clickTAB3 = function (){
+//     console.log('font info TAB clicked');
+//     fonttableTAB.classList.add('selected');
+//     fonttableMenu.classList.remove('display-none');
+//     glyphMenu.classList.add('display-none');
+//     fontinfoMenu.classList.add('display-none');
+// };
 
 glyphTAB.addEventListener("click", clickTAB1, false);
 fontinfoTAB.addEventListener("click", clickTAB2, false);
