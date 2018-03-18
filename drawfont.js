@@ -20,16 +20,20 @@ let fonttableMenu = document.getElementById('table-menu');
 
 let rightMenuTabs = document.querySelectorAll('.menu-selection div');
 for(var i = 0; i < rightMenuTabs.length; i++){
-    rightMenuTabs[i].addEventListener('click', clickTab(i));
+    console.log('adding event listener!')
+    rightMenuTabs[i].addEventListener('click', function(){
+        clickTab(i);
+    });
 }
 
 function clickTab(index){
+    console.log('selected!')
     for(var i = 0; i < rightMenuTabs.length; i++){
         rightMenuTabs[i].classList.remove('selected');
-        document.querySelector('.menu-right div').children[i].classList.add('display-none');
+        document.querySelector('.menu-right').children[i+1].classList.add('display-none');
     }
     rightMenuTabs[index].classList.add('selected');
-    document.querySelector('.menu-right div')[index].classList.remove('display-none');
+    document.querySelector('.menu-right').children[index+1].classList.remove('display-none');
 }
 
 // let clickTAB1 = function (){
