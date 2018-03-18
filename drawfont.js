@@ -1,7 +1,7 @@
 const remote = require('electron').remote;
 const opentype = remote.getGlobal('opentype');
 const path = require('path');
-const jquery = $ = require('jquery');
+// const jquery = $ = require('jquery');
 console.log(opentype);
 
 let font;
@@ -72,3 +72,16 @@ document.querySelectorAll('.index-selected').addEventListener('click', ()=>{
     console.log('clicked');
     this.classList.remove('index-selected');
 }, false);
+//add Listeners to Left menu tabs
+let glyphTAB = document.getElementById('glyphs');
+var fontinfoTAB = document.getElementById('fontinfo');
+var fonttable = document.getElementById('fonttable');
+function clickTAB1 (){
+    console.log('glyphTAB clicked');
+    glyphTAB.classList.add('selected');
+};
+glyphTAB.addEventListener("click", clickTAB1, false);
+// glyphTAB.onclick = function(){
+//     console.log('glyphTAB clicked');
+// }
+// glyphTAB.addEventListener("click", )

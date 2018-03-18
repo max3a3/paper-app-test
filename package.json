@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron --inspect=5858 app.js",
+    "start": "electron app.js",
     "debug": "electron --inspect=5858 app.js"
   },
   "keywords": [],

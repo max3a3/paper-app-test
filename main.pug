@@ -8,12 +8,12 @@ html
     .nav-wrapper
       span.brand-logo Moum
       ul#nav-mobile
-        li
-          a(href='#') Help
-        li
-          a(href='#') Load New
-        li
-          a(href='#') My Fonts
+        .nav-button#nav-help(href='#') Help
+          //- a(href='#') Help
+        .nav-button#nav-load(href='#') Load New
+          //- a(href='#') Load New
+        .nav-button#nav-myfonts(href='#') My Fonts
+          //- a(href='#') My Fonts
     //- canvas(id="myCanvas")
     .main-wrapper
       .menu-left
@@ -95,6 +95,22 @@ html
             .index-button ㅎ
       .main-canvas
       .menu-right
+        .menu-selection
+          .menu-tab#glyphs glyphs
+          .menu-tab#fontinfo font info
+          .menu-tab#fonttable font table
+        .tables
+          .bar head table
+          .index
+          .bar head table
+          .bar head table
+          .bar head table
+          .bar head table
+          .bar head table
+          .bar head table
+          .bar head table
+          .bar head table
+          .bar head table
 //- script(type='text/javascript',src="draw2.js")
 script(type='text/javascript',src="drawfont.js")
 //- script(type='text/javascript',src='./style/js/jquery-3.3.1.min.js')
