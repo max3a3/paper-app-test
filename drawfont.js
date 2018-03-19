@@ -8,7 +8,7 @@ let font;
 let fontFileName = 'fonts/SDGTM.ttf';
 
 // ********************************** //
-// left menu tab controls             //
+// right menu tab controls            //
 // ********************************** //
 
 let glyphTAB = document.getElementById('glyphs');
@@ -18,59 +18,73 @@ let glyphMenu = document.getElementById('glyph-menu');
 let fontinfoMenu = document.getElementById('info-menu');
 let fonttableMenu = document.getElementById('table-menu');
 
-let rightMenuTabs = document.querySelectorAll('.menu-selection div');
-for(var i = 0; i < rightMenuTabs.length; i++){
-    console.log('adding event listener!')
-    rightMenuTabs[i].addEventListener('click', function(){
-        clickTab(i);
-    });
-}
+// let rightMenuTabs = document.querySelectorAll('.menu-selection div');
+    // for(var i = 0; i < rightMenuTabs.length; i++){
+    //     console.log('adding event listener!')
+    //     rightMenuTabs[i].addEventListener('click', clickTab, false);
+    // }
 
-function clickTab(index){
-    console.log('selected!')
-    for(var i = 0; i < rightMenuTabs.length; i++){
-        rightMenuTabs[i].classList.remove('selected');
-        document.querySelector('.menu-right').children[i+1].classList.add('display-none');
-    }
-    rightMenuTabs[index].classList.add('selected');
-    document.querySelector('.menu-right').children[index+1].classList.remove('display-none');
-}
+    // function clickTab(){
+    //     console.log('selected!')
 
-// let clickTAB1 = function (){
-//     console.log('glyphs TAB clicked');
-//     glyphTAB.classList.add('selected');
-//     fontinfoMenu.classList.remove('selected');
-//     fonttableMenu.classList.remove('selected');
-//     glyphMenu.classList.remove('display-none');
-//     fontinfoMenu.classList.add('display-none');
-//     fonttableMenu.classList.add('display-none');
-// };
-// let clickTAB2 = function (){
-//     console.log('font info TAB clicked');
-//     fontinfoTAB.classList.add('selected');
-//     fontinfoMenu.classList.remove('display-none');
-//     glyphMenu.classList.add('display-none');
-//     fonttableMenu.classList.add('display-none');
-// };
-// let clickTAB3 = function (){
-//     console.log('font info TAB clicked');
-//     fonttableTAB.classList.add('selected');
-//     fonttableMenu.classList.remove('display-none');
-//     glyphMenu.classList.add('display-none');
-//     fontinfoMenu.classList.add('display-none');
-// };
+    //     rightMenuTabs[index].classList.add('selected');
+    //     document.querySelector('.menu-right').children[index+1].classList.remove('display-none');
+    // }
+    // function unclickTAB(){
+    //     for(var i = 0; i < rightMenuTabs.length; i++){
+    //         rightMenuTabs[i].classList.remove('selected');
+    //         document.querySelector('.menu-right').children[i+1].classList.add('display-none');
+    //     }
+    // }
+
+
+let clickTAB1 = function (){
+    glyphTAB.classList.add('selected');
+    fontinfoTAB.classList.remove('selected');
+    fonttableTAB.classList.remove('selected');
+    glyphMenu.classList.remove('display-none');
+    fontinfoMenu.classList.add('display-none');
+    fonttableMenu.classList.add('display-none');
+};
+let clickTAB2 = function (){
+    fontinfoTAB.classList.add('selected');
+    glyphTAB.classList.remove('selected');
+    fonttableTAB.classList.remove('selected');
+    fontinfoMenu.classList.remove('display-none');
+    glyphMenu.classList.add('display-none');
+    fonttableMenu.classList.add('display-none');
+};
+let clickTAB3 = function (){
+    fonttableTAB.classList.add('selected');
+    glyphTAB.classList.remove('selected');
+    fontinfoTAB.classList.remove('selected');
+    fonttableMenu.classList.remove('display-none');
+    glyphMenu.classList.add('display-none');
+    fontinfoMenu.classList.add('display-none');
+};
 
 glyphTAB.addEventListener("click", clickTAB1, false);
 fontinfoTAB.addEventListener("click", clickTAB2, false);
 fonttableTAB.addEventListener("click", clickTAB3, false);
 
 
+// ********************************** //
+// Loading default fonts              //
+// ********************************** //
+
 loadFont(fontFileName);
+drawFont();
+
 
 function loadFont(fontFileName){
     font = opentype.loadSync(fontFileName);
     console.log('loaded ', font.names.fontFamily.en, font.names.fontFamily.ko);
-    listAll(font.names);
+    // listAll(font.names);
+}
+
+function loadNew(fontFileName){
+    window.fontFileName = fontFileName;
+    loadFont(fontFileName);
 }
 
 function listAll(o){
@@ -81,6 +95,45 @@ function listAll(o){
     } else {
         console.log(o)
     }
+}
+
+enableHighDPICanvas(canvas);
+
+function enableHighDPICanvas(canvas) {
+    if (typeof canvas === 'string') {
+        canvas = document.getElementById(canvas);
+    }
+    var pixelRatio = window.devicePixelRatio || 1;
+    if (pixelRatio === 1) return;
+    var oldWidth = canvas.width;
+    var oldHeight = canvas.height;
+    canvas.width = oldWidth * pixelRatio;
+    canvas.height = oldHeight * pixelRatio;
+    canvas.style.width = oldWidth + 'px';
+    canvas.style.height = oldHeight + 'px';
+    canvas.getContext('2d').scale(pixelRatio, pixelRatio);
+}
+
+function renderText(char) {
+    if (!font) return;
+
+    var previewCtx = canvas.getContext("2d");
+    previewCtx.clearRect(0, 0, canvas.width, canvas.height);
+    font.draw(previewCtx, char, 0, 32, 150, {
+        kerning: true,
+        features: {
+            liga: true,
+            rlig: true
+        }
+    });
+}
+
+function drawFont(args){
+    var char = '';
+    if(args){
+        char = args;
+    }
+    renderText(char);
 }
 
 // document.getElementById('load-default').addEventListener('click', function(){
@@ -125,15 +178,15 @@ function listAll(o){
 // fileButton.addEventListener('change', onReadFile, false);
 
 //index selection toggle
-var indexButtons = document.querySelectorAll('.index-button')
-indexButtons.addEventListener('mousedown', ()=>{
-    console.log('clicked');
-    this.classList.add('index-selected');
-}, false);
-document.querySelectorAll('.index-selected').addEventListener('click', ()=>{
-    console.log('clicked');
-    this.classList.remove('index-selected');
-}, false);
+// var indexButtons = document.querySelectorAll('.index-button')
+// indexButtons.addEventListener('mousedown', ()=>{
+//     console.log('clicked');
+//     this.classList.add('index-selected');
+// }, false);
+// document.querySelectorAll('.index-selected').addEventListener('click', ()=>{
+//     console.log('clicked');
+//     this.classList.remove('index-selected');
+// }, false);
 //add Listeners to Left menu tabs
 
 

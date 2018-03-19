@@ -9,10 +9,14 @@
 .menu-tab{
   line-height: 50px;
 }
+.menu-selection div{
+  border-bottom: solid 1px #EEE;
+  font-family: 'EnglishFont';
+}
 .menu-selection .selected{
   background-color: var(--color0);
   border: solid 1px #EEE;
-  border-bottom: none;
+  border-bottom: none !important;
 }
 
 .menu-selection{
@@ -27,6 +31,9 @@
 }
 .menu-right .bar{
   background-color: var(--color0);
+  height: 30px;
+  line-height: 30px;
+  font-size: 70%;
 }
 .index-selected {
   background-color: var(--color4);
@@ -36,7 +43,6 @@
 
 .search-selection .index-button:hover{
   background-color: var(--color3);
-  border: gray 1px solid;
 }
 
 .search-selection .index-button{
@@ -133,6 +139,7 @@
   z-index: 2;
   background-color: var(--color5);
   filter: drop-shadow(0 0 0.2rem rgba(0,0,0,0.5));
+  font-family: 'EnglishFont';
 }
 
 body div{
@@ -171,12 +178,11 @@ a{
 
 @font-face {
   font-family: 'KoreanFont';
-  font-weight: 700;
-  src: url('YoonGothic.ttf') format('truetype');
+  src: url('../style/YoonGothic.otf') format('opentype');
 }
-
-@font-face {
-
+@font-face{
+  font-family: 'EnglishFont';
+  src: url('../style/fonts/roboto/Roboto-Light.woff') format('woff');
 }
 
 :root {

@@ -2,6 +2,7 @@ var font = null;
 var fontSize = 32;
 var textToRender = 'Grumpy wizards make toxic brew for the evil Queen and Jack.';
 var previewPath = null;
+var canvas = document.getElementById('canvas');
 
 function escapeHtml(unsafe) {
     return unsafe
