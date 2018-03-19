@@ -6,6 +6,8 @@ console.log(opentype);
 
 let font;
 let fontFileName = 'fonts/SDGTM.ttf';
+let canvas = document.getElementById('canvas');
+let previewCtx = canvas.getContext("2d");
 
 // ********************************** //
 // right menu tab controls            //
@@ -67,14 +69,27 @@ glyphTAB.addEventListener("click", clickTAB1, false);
 fontinfoTAB.addEventListener("click", clickTAB2, false);
 fonttableTAB.addEventListener("click", clickTAB3, false);
 
+function loadGlyphTable(char){
+    var table = document.getElementById('glyph-table');
+    table.innerHTML = '<tr><th>type</th><th>x</th><th>y</th></tr>'
+    var tablehtml = '';
+    for(i in char.path.commands){
+        var point = char.path.commands[i];
+        tablehtml += '<tr><td>' + point.type + '</td>';
+        tablehtml += '<td>' + Math.round(point.x) + '</td>';
+        tablehtml += '<td>' + Math.round(point.y) + '</td></tr>';
+    }
+    table.innerHTML += tablehtml;
+}
 
 // ********************************** //
 // Loading default fonts              //
 // ********************************** //
 
 loadFont(fontFileName);
-drawFont();
-
+// renderText('한');
+var han = font.charToGlyph('한');
+loadGlyphTable(han);
 
 function loadFont(fontFileName){
     font = opentype.loadSync(fontFileName);
@@ -97,6 +112,11 @@ function listAll(o){
     }
 }
 
+
+// ********************************** //
+// drawin glyphs                      //
+// ********************************** //
+
 enableHighDPICanvas(canvas);
 
 function enableHighDPICanvas(canvas) {
@@ -116,8 +136,6 @@ function enableHighDPICanvas(canvas) {
 
 function renderText(char) {
     if (!font) return;
-
-    var previewCtx = canvas.getContext("2d");
     previewCtx.clearRect(0, 0, canvas.width, canvas.height);
     font.draw(previewCtx, char, 0, 32, 150, {
         kerning: true,
@@ -128,13 +146,10 @@ function renderText(char) {
     });
 }
 
-function drawFont(args){
-    var char = '';
-    if(args){
-        char = args;
-    }
-    renderText(char);
-}
+
+
+
+
 
 // document.getElementById('load-default').addEventListener('click', function(){
 //     loadFont(fontFileName);
