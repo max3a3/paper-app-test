@@ -1,13 +1,55 @@
 const remote = require('electron').remote;
 const opentype = remote.getGlobal('opentype');
 const path = require('path');
-// const jquery = $ = require('jquery');
-console.log(opentype);
+const paper = require('paper');
+
+// ********************************** //
+// public variables                   //
+// ********************************** //
 
 let font;
 let fontFileName = 'fonts/SDGTM.ttf';
 let canvas = document.getElementById('canvas');
-let previewCtx = canvas.getContext("2d");
+let ctx = canvas.getContext("2d");
+paper.setup(canvas);
+
+// ********************************** //
+// left menu tab controls             //
+// ********************************** //
+
+var indexButtons = document.querySelectorAll('.index-button');
+for (var idx = 0; 0 < indexButtons.length; idx++){
+    console.log(indexButtons[idx]);
+    if(!indexButtons[idx]) break;
+	indexButtons[idx].addEventListener('click', function(){
+        console.log('clicked');
+        console.log(this);
+        console.log(this.className+' to ->');
+        if(this.classList.contains('index-selected')){
+            this.classList.remove('index-selected');
+        }else{
+            this.classList.add('index-selected');
+        }
+        console.log(this.className);
+	}, false)
+}
+
+window.addEventListener("resize", function() {
+    var parent = canvas.parentElement;
+    console.log('resized')
+    canvas.height = parent.offsetHeight;
+    canvas.width = parent.offsetWidth;
+    // paper.project.view.update();
+    paper.project.layers[0].remove()
+    drawGlyph(han);
+    // canvas.height = 
+})
+
+var redrawButton = document.querySelector('.redraw');
+redrawButton.addEventListener('click', function(){
+    drawGlyph(han);
+},false)
+
 
 // ********************************** //
 // right menu tab controls            //
@@ -64,7 +106,6 @@ let clickTAB3 = function (){
     glyphMenu.classList.add('display-none');
     fontinfoMenu.classList.add('display-none');
 };
-
 glyphTAB.addEventListener("click", clickTAB1, false);
 fontinfoTAB.addEventListener("click", clickTAB2, false);
 fonttableTAB.addEventListener("click", clickTAB3, false);
@@ -114,10 +155,27 @@ function listAll(o){
 
 
 // ********************************** //
-// drawin glyphs                      //
+// drawing glyphs                     //
 // ********************************** //
+drawGlyph(han);
+function drawGlyph(char){
+    console.log('drawing init')
+    var tempPath = new paper.Path({
+        strokeColor: 'black'
+      });
+    var points = char.path.commands;
+    for(idx in points){
+        var p = points[idx];
+        if(p.type !== 'M' && p.type !== 'Z')
+        console.log('drawing',p.x, p.y);
+        var min = canvas.width>canvas.height ? canvas.height : canvas.width;
+        var tempPoint = new paper.Point((p.x*min/1000), canvas.height*0.75-(p.y*min/1000))
+        tempPoint.selected = true;
+        tempPath.add(tempPoint);
+    }
+}
 
-enableHighDPICanvas(canvas);
+// enableHighDPICanvas(canvas);
 
 function enableHighDPICanvas(canvas) {
     if (typeof canvas === 'string') {
