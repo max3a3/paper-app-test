@@ -1,6 +1,3 @@
-#glyph-table-wrapper{
-  padding: 15px;
-}
 th{
   width: 33%;
 }
@@ -8,15 +5,20 @@ th{
   border-bottom: solid 1px var(--light-border);
   height: 120%;
 }
-#glyph-table{
+#glyph-info-menu{
+  overflow: hidden;
+}
+#glyph-info-table{
   background-color: var(--color0);
   width: 95%;
   font-size: 70%;
   text-align: center;
+  user-select: text;
 }
 #glyph-table-wrapper{
+  padding: 15px;
   overflow:auto;
-  height:540px;
+  height: 50vh;
 }
 .display-none{
   display: none !important;

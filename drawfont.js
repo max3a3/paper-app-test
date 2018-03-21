@@ -11,7 +11,9 @@ let font;
 let fontFileName = 'fonts/SDGTM.ttf';
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext("2d");
+let glyphSelection = ['','',''];
 paper.setup(canvas);
+
 
 // ********************************** //
 // left menu tab controls             //
@@ -59,7 +61,7 @@ let glyphTAB = document.getElementById('glyphs');
 let fontinfoTAB = document.getElementById('fontinfo');
 let fonttableTAB = document.getElementById('fonttable');
 let glyphMenu = document.getElementById('glyph-menu');
-let fontinfoMenu = document.getElementById('info-menu');
+let fontinfoMenu = document.getElementById('glyph-info-menu');
 let fonttableMenu = document.getElementById('table-menu');
 
 // let rightMenuTabs = document.querySelectorAll('.menu-selection div');
@@ -111,7 +113,7 @@ fontinfoTAB.addEventListener("click", clickTAB2, false);
 fonttableTAB.addEventListener("click", clickTAB3, false);
 
 function loadGlyphTable(char){
-    var table = document.getElementById('glyph-table');
+    var table = document.getElementById('glyph-info-table');
     table.innerHTML = '<tr><th>type</th><th>x</th><th>y</th></tr>'
     var tablehtml = '';
     for(i in char.path.commands){
@@ -173,6 +175,7 @@ function drawGlyph(char){
         tempPoint.selected = true;
         tempPath.add(tempPoint);
     }
+    loadGlyphTable(char);
 }
 
 // enableHighDPICanvas(canvas);
