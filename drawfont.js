@@ -23,12 +23,13 @@ const paper = require('paper');
 let FONT;
 let FONT_DEFAULT;
 let FONT_FILE_NAME = 'fonts/SDGTM.ttf';
+
 let CANVAS = document.getElementById('canvas');
 let CTX = CANVAS.getContext("2d");
+
 let GLYPH_SELECTION = ['','',''];
 let GLYPH_TABLE_LIST = [];
 let CHAR_TO_DRAW = '한'
-var GLYPH_TO_DRAW = FONT.charToGlyph(CHAR_TO_DRAW);
 
 // ********************************** //
 // SETUP FOR APP                      //
@@ -36,6 +37,8 @@ var GLYPH_TO_DRAW = FONT.charToGlyph(CHAR_TO_DRAW);
 paper.setup(CANVAS);
 
 loadFont(FONT_FILE_NAME);
+
+let GLYPH_TO_DRAW = FONT.charToGlyph(CHAR_TO_DRAW);
 
 loadGlyphTable(GLYPH_TO_DRAW);
 
@@ -81,10 +84,15 @@ let $_glyphMenu = document.getElementById('glyph-menu');
 let $_fontinfoMenu = document.getElementById('glyph-info-menu');
 let $_fonttableMenu = document.getElementById('table-menu');
 
+let $_glyphDiv = document.getElementById('glyph-menu');
+let $_glyphInfoDiv = document.getElementById('glyph-info-menu');
+let $_tableDiv = document.getElementById('table-menu');
 
 // ********************************** //
 // left menu tab controls             //
 // ********************************** //
+
+addEventListers();
 
 /** 
  * adding Event Listener
@@ -95,9 +103,9 @@ let $_fonttableMenu = document.getElementById('table-menu');
 */
 function addEventListers(){
     /* 
-    to LEFT-MENU, glyph selection buttons, ADD functions --
-    1. add to its own css class 'index-selected'
-    2. add to GLYPH_SELECTION array (which projects RIGHT-MENU, glyph-table)
+        to LEFT-MENU, glyph selection buttons, ADD functions --
+        1. add to its own css class 'index-selected'
+        2. add to GLYPH_SELECTION array (which projects RIGHT-MENU, glyph-table)
      */
     for (var idx = 0; 0 < $_indexButtons.length; idx++){
         // console.log(indexButtons[idx]);
@@ -132,13 +140,14 @@ function addEventListers(){
             }
             console.log(GLYPH_SELECTION);
             // console.log(this.className);
-            loadGlyphList();
+            // @TODO
+            toGlyphList(GLYPH_SELECTION);
         }, false)
     }
     /* 
-    to RIGHT-MENU, .bar divs, ADD functions --
-    1. add to its own css class 'index-selected'
-    2. add to GLYPH_SELECTION array (which projects RIGHT-MENU, glyph-table)
+        to RIGHT-MENU, .bar divs, ADD functions --
+        1. add to its own css class 'index-selected'
+        2. add to GLYPH_SELECTION array (which projects RIGHT-MENU, glyph-table)
      */
     for(i in $_rightMenuBarAll){
         if(typeof i != Number) break;
@@ -167,8 +176,10 @@ window.addEventListener("resize", function() {
     drawGlyph(GLYPH_TO_DRAW);
     
     //resize everything
-    var glyphInfoDiv = document.getElementById('glyph-info-menu');
-    glyphInfoDiv.setAttribute('style','height:'+window.innerHeight-90);
+    $_tableDiv.setAttribute('style', 'height:'+(window.innerHeight-90)+'px');
+    $_glyphInfoDiv.setAttribute('style', 'height:'+(window.innerHeight-90)+'px');
+    $_glyphDiv.setAttribute('style', 'height:'+(window.innerHeight-90)+'px');
+
 })
 
 $_redrawButton.addEventListener('click', function(){
@@ -207,6 +218,7 @@ let clickTAB1 = function (){
     $_glyphMenu.classList.remove('display-none');
     $_fontinfoMenu.classList.add('display-none');
     $_fonttableMenu.classList.add('display-none');
+    $_tableDiv.setAttribute('style', 'height:'+(window.innerHeight-90)+'px');
 };
 let clickTAB2 = function (){
     $_fontinfoTAB.classList.add('selected');
@@ -215,6 +227,7 @@ let clickTAB2 = function (){
     $_fontinfoMenu.classList.remove('display-none');
     $_glyphMenu.classList.add('display-none');
     $_fonttableMenu.classList.add('display-none');
+    $_glyphInfoDiv.setAttribute('style', 'height:'+(window.innerHeight-90)+'px');
 };
 let clickTAB3 = function (){
     $_fonttableTAB.classList.add('selected');
@@ -223,6 +236,7 @@ let clickTAB3 = function (){
     $_fonttableMenu.classList.remove('display-none');
     $_glyphMenu.classList.add('display-none');
     $_fontinfoMenu.classList.add('display-none');
+    $_glyphDiv.setAttribute('style', 'height:'+(window.innerHeight-90)+'px');
 };
 $_glyphTAB.addEventListener("click", clickTAB1, false);
 $_fontinfoTAB.addEventListener("click", clickTAB2, false);
@@ -240,6 +254,9 @@ function loadGlyphTable(char){
     }
     table.innerHTML += tablehtml;
 }
+var id;
+// for(var i=0; i)
+'<canvas class="glyph-list" id="'+id+'"></canvas>'
 
 // ********************************** //
 // Loading default fonts              //
@@ -281,28 +298,46 @@ function listAll(o){
  * @returns decimal unicode number
  */
 function johap(arrIn){
-    var ret = 0;
-    var index1 = arrIn[0]-12593;
-    var index2 = arrIn[1]-12622;
-    // var index3 = arrIn[2]-
-
-    if(!arrIn.length === 3){
-        console.log('Cannot Johap() ERR(Input is not Valid Check input array length)');
-        return;
-    }else {
-        
-    }
+    var ret = 44032;
+    var index1 = CHO.indexOf(arrIn[0]);
+    var index2 = JUNG.indexOf(arrIn[1]);
+    var index3 = JONG.indexOf(arrIn[2]);
+    ret += (21*28*index1)+(28*index2)+(index3);
     return ret;
 }
+//for test
+// String.fromCharCode(johap(['ㄱ','ㅏ','ㄴ']));
+// String.fromCharCode(johap(GLYPH_SELECTION));
+
 
 // returns array of possible 
-loadGlyphList(GLYPH_SELECTION);
-function loadGlyphList(arr){
 
-    var chosungList = arr[0].split();
-    var joongsungList = arr[1].split();
-    var jongsungList = arr[2].split();
+function toGlyphList(arr){
+    GLYPH_TABLE_LIST = [];
+    if(arr[0]+arr[1]+arr[2] == ''){
+        GLYPH_TABLE_LIST = '가각갂갃간갅갆갇갈갉갊갋갌갍갎갏감갑값갓갔강갖갗갘같갚갛개객갞갟갠갡갢갣갤갥갦갧갨갩갪갫갬갭갮갯갰갱갲갳갴갵갶갷갸갹갺갻갼갽갾갿걀걁걂걃걄걅걆걇걈걉걊걋걌걍걎걏걐걑걒걓걔걕걖걗걘걙걚걛걜걝걞걟걠걡걢걣'.split();
+        console.log(GLYPH_TABLE_LIST);
+        return;
+    }
 
+    var list1 = arr[0].length !== 0 ? arr[0].split('') : CHO;
+    var list2 = arr[1].length !== 0 ? arr[1].split('') : JUNG;
+    var list3 = arr[2].length !== 0 ? arr[2].split('') : JONG;
+
+    for(i in list1){
+        for(j in list2){
+            for(k in list3){
+                console.log('초성 : ' + list1[i],'중성 : ' + list2[j],'종성 : ' + list3[k])
+                GLYPH_TABLE_LIST.push(johap([list1[i],list2[j],list3[k]]));
+            }
+        }
+    }
+    console.log(GLYPH_TABLE_LIST);
+    var str = '';
+    for(var i = 0; i < 100; i++){
+        str += String.fromCharCode(GLYPH_TABLE_LIST[i]);
+    }
+    console.log(str);
 };
 
 drawGlyph(GLYPH_TO_DRAW);
