@@ -2,86 +2,114 @@ const remote = require('electron').remote;
 const opentype = remote.getGlobal('opentype');
 const path = require('path');
 const paper = require('paper');
+// import 
 
 // ********************************** //
 // public variables                   //
 // ********************************** //
 
-let font;
-let unicodeFont;
-let fontFileName = 'fonts/SDGTM.ttf';
-let canvas = document.getElementById('canvas');
-let ctx = canvas.getContext("2d");
-let glyphSelection = ['','',''];
-let glyphTableList = [];
-paper.setup(canvas);
+let FONT;
+let FONT_DEFAULT;
+let FONT_FILE_NAME = 'fonts/SDGTM.ttf';
+let CANVAS = document.getElementById('canvas');
+let CTX = CANVAS.getContext("2d");
+let GLYPH_SELECTION = ['','',''];
+let GLYPH_TABLE_LIST = [];
+paper.setup(CANVAS);
+
+
+// ********************************** //
+// DOM selections                     //
+// ********************************** //
+
+let $_indexButtons = document.querySelectorAll('.index-button');
+let $_rightMenuBarAll = document.querySelectorAll('.menu-right .bar');
+let $_redrawButton = document.querySelector('.redraw');
 
 
 // ********************************** //
 // left menu tab controls             //
 // ********************************** //
 
-var indexButtons = document.querySelectorAll('.index-button');
-for (var idx = 0; 0 < indexButtons.length; idx++){
-    // console.log(indexButtons[idx]);
-    if(!indexButtons[idx]) break;
-	indexButtons[idx].addEventListener('click', function(){
-        // console.log('clicked');
-        // console.log(this);
-        // console.log(this.className+' to ->');
-        var glyphChar = this.innerText;
-        var glyphIndex = 0;
-        console.log('parent : ' + this.parentElement.id);
-        switch(this.parentElement.id){
-            case 'first'  : 
-                glyphIndex = 0;
-                break;
-            case 'second' : 
-                glyphIndex = 1;
-                break;
-            case 'third'  : 
-                glyphIndex = 2;
-                break;
-        }
-        console.log('glyphChar : ' + glyphChar);
-        console.log('glyphIndex : ' + glyphIndex);
-        if(this.classList.contains('index-selected')){            
-            this.classList.remove('index-selected');
-            glyphSelection[glyphIndex] = glyphSelection[glyphIndex].replace(glyphChar, '');
-            // console.log(glyphSelection[glyphIndex].search(glyphChar));
-        }else{
-            this.classList.add('index-selected');
-            glyphSelection[glyphIndex] += glyphChar;
-        }
-        console.log(glyphSelection);
-        // console.log(this.className);
-        loadGlyphList();
-	}, false)
+/** 
+ * adding Event Listener
+ * @global
+ * @function addEventListers
+ * @param none
+ * these will run onload()
+*/
+
+function addEventListers(){
+    /* 
+    to LEFT-MENU, glyph selection buttons, ADD functions --
+    1. add to its own css class 'index-selected'
+    2. add to GLYPH_SELECTION array (which projects RIGHT-MENU, glyph-table)
+     */
+    for (var idx = 0; 0 < $_indexButtons.length; idx++){
+        // console.log(indexButtons[idx]);
+        if(!$_indexButtons[idx]) break;
+        $_indexButtons[idx].addEventListener('click', function(){
+            // console.log('clicked');
+            // console.log(this);
+            // console.log(this.className+' to ->');
+            var glyphChar = this.innerText;
+            var glyphIndex = 0;
+            console.log('parent : ' + this.parentElement.id);
+            switch(this.parentElement.id){
+                case 'first'  : 
+                    glyphIndex = 0;
+                    break;
+                case 'second' : 
+                    glyphIndex = 1;
+                    break;
+                case 'third'  : 
+                    glyphIndex = 2;
+                    break;
+            }
+            console.log('glyphChar : ' + glyphChar);
+            console.log('glyphIndex : ' + glyphIndex);
+            if(this.classList.contains('index-selected')){            
+                this.classList.remove('index-selected');
+                GLYPH_SELECTION[glyphIndex] = GLYPH_SELECTION[glyphIndex].replace(glyphChar, '');
+                // console.log(glyphSelection[glyphIndex].search(glyphChar));
+            }else{
+                this.classList.add('index-selected');
+                GLYPH_SELECTION[glyphIndex] += glyphChar;
+            }
+            console.log(GLYPH_SELECTION);
+            // console.log(this.className);
+            loadGlyphList();
+        }, false)
+    }
+    /* 
+    to RIGHT-MENU, .bar divs, ADD functions --
+    1. add to its own css class 'index-selected'
+    2. add to GLYPH_SELECTION array (which projects RIGHT-MENU, glyph-table)
+     */
+    for(i in $_rightMenuBarAll){
+        if(typeof i != Number) break;
+        $_rightMenuBarAll[i].addEventListener('click', function(){
+            console.log('clicked bar');
+            var next = this.nextElementSibling;
+            while(next && !next.classList.contains('bar')){
+                if(next.classList.contains('display-none')){
+                    next.classList.remove('display-none');
+                } else if (!next.classList.contains('display-none')){
+                    next.classList.add('display-none');
+                }
+                next = next.nextElementSibling;
+            }
+        }, false);
+    }
 }
 
-let allRightMenuBar = document.querySelectorAll('.menu-right .bar');
-for(i in allRightMenuBar){
-    if(typeof i != Number) break;
-    allRightMenuBar[i].addEventListener('click', function(){
-        console.log('clicked bar');
-        var next = this.nextElementSibling;
-        while(next && !next.classList.contains('bar')){
-            if(next.classList.contains('display-none')){
-                next.classList.remove('display-none');
-            } else if (!next.classList.contains('display-none')){
-                next.classList.add('display-none');
-            }
-            next = next.nextElementSibling;
-        }
-    }, false);
-}
 
 
 window.addEventListener("resize", function() {
-    var parent = canvas.parentElement;
+    var parent = CANVAS.parentElement;
     console.log('resized')
-    canvas.height = parent.offsetHeight;
-    canvas.width = parent.offsetWidth;
+    CANVAS.height = parent.offsetHeight;
+    CANVAS.width = parent.offsetWidth;
     
     paper.project.layers[0].remove()
     drawGlyph(han);
@@ -91,8 +119,8 @@ window.addEventListener("resize", function() {
     glyphInfoDiv.setAttribute('style','height:'+window.innerHeight-90);
 })
 
-var redrawButton = document.querySelector('.redraw');
-redrawButton.addEventListener('click', function(){
+
+$_redrawButton.addEventListener('click', function(){
     drawGlyph(han);
 },false)
 
@@ -173,14 +201,14 @@ function loadGlyphTable(char){
 // Loading default fonts              //
 // ********************************** //
 
-loadFont(fontFileName);
+loadFont(FONT_FILE_NAME);
 // renderText('한');
-var han = font.charToGlyph('한');
+var han = FONT.charToGlyph('한');
 loadGlyphTable(han);
 
 function loadFont(fontFileName){
-    font = opentype.loadSync(fontFileName);
-    console.log('loaded ', font.names.fontFamily.en, font.names.fontFamily.ko);
+    FONT = opentype.loadSync(fontFileName);
+    console.log('loaded ', FONT.names.fontFamily.en, FONT.names.fontFamily.ko);
     // listAll(font.names);
 }
 
@@ -215,7 +243,9 @@ function listAll(o){
  */
 function johap(arrIn){
     var ret = 0;
-    var index1 = arrIn[0]
+    var index1 = arrIn[0]-12593;
+    var index2 = arrIn[1]-12622;
+
     if(!arrIn.length === 3){
         console.log('Cannot Johap() ERR(Input is not Valid Check input array length)');
         return;
@@ -226,15 +256,13 @@ function johap(arrIn){
 }
 
 // returns array of possible 
-loadGlyphList(glyphSelection);
+loadGlyphList(GLYPH_SELECTION);
 function loadGlyphList(arr){
 
     var chosungList = arr[0].split();
     var joongsungList = arr[1].split();
     var jongsungList = arr[2].split();
 
-    for()
-    font.
 };
 
 drawGlyph(han);
@@ -248,8 +276,8 @@ function drawGlyph(char){
         var p = points[idx];
         if(p.type !== 'M' && p.type !== 'Z')
         console.log('drawing',p.x, p.y);
-        var min = canvas.width>canvas.height ? canvas.height : canvas.width;
-        var tempPoint = new paper.Point((p.x*min/1000), canvas.height*0.75-(p.y*min/1000))
+        var min = CANVAS.width>CANVAS.height ? CANVAS.height : CANVAS.width;
+        var tempPoint = new paper.Point((p.x*min/1000), CANVAS.height*0.75-(p.y*min/1000))
         tempPoint.selected = true;
         tempPath.add(tempPoint);
     }
@@ -274,9 +302,9 @@ function enableHighDPICanvas(canvas) {
 }
 
 function renderText(char) {
-    if (!font) return;
-    previewCtx.clearRect(0, 0, canvas.width, canvas.height);
-    font.draw(previewCtx, char, 0, 32, 150, {
+    if (!FONT) return;
+    previewCtx.clearRect(0, 0, CANVAS.width, CANVAS.height);
+    FONT.draw(previewCtx, char, 0, 32, 150, {
         kerning: true,
         features: {
             liga: true,
