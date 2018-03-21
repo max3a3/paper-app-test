@@ -8,10 +8,12 @@ const paper = require('paper');
 // ********************************** //
 
 let font;
+let unicodeFont;
 let fontFileName = 'fonts/SDGTM.ttf';
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext("2d");
 let glyphSelection = ['','',''];
+let glyphTableList = [];
 paper.setup(canvas);
 
 
@@ -21,30 +23,72 @@ paper.setup(canvas);
 
 var indexButtons = document.querySelectorAll('.index-button');
 for (var idx = 0; 0 < indexButtons.length; idx++){
-    console.log(indexButtons[idx]);
+    // console.log(indexButtons[idx]);
     if(!indexButtons[idx]) break;
 	indexButtons[idx].addEventListener('click', function(){
-        console.log('clicked');
-        console.log(this);
-        console.log(this.className+' to ->');
-        if(this.classList.contains('index-selected')){
+        // console.log('clicked');
+        // console.log(this);
+        // console.log(this.className+' to ->');
+        var glyphChar = this.innerText;
+        var glyphIndex = 0;
+        console.log('parent : ' + this.parentElement.id);
+        switch(this.parentElement.id){
+            case 'first'  : 
+                glyphIndex = 0;
+                break;
+            case 'second' : 
+                glyphIndex = 1;
+                break;
+            case 'third'  : 
+                glyphIndex = 2;
+                break;
+        }
+        console.log('glyphChar : ' + glyphChar);
+        console.log('glyphIndex : ' + glyphIndex);
+        if(this.classList.contains('index-selected')){            
             this.classList.remove('index-selected');
+            glyphSelection[glyphIndex] = glyphSelection[glyphIndex].replace(glyphChar, '');
+            // console.log(glyphSelection[glyphIndex].search(glyphChar));
         }else{
             this.classList.add('index-selected');
+            glyphSelection[glyphIndex] += glyphChar;
         }
-        console.log(this.className);
+        console.log(glyphSelection);
+        // console.log(this.className);
+        loadGlyphList();
 	}, false)
 }
+
+let allRightMenuBar = document.querySelectorAll('.menu-right .bar');
+for(i in allRightMenuBar){
+    if(typeof i != Number) break;
+    allRightMenuBar[i].addEventListener('click', function(){
+        console.log('clicked bar');
+        var next = this.nextElementSibling;
+        while(next && !next.classList.contains('bar')){
+            if(next.classList.contains('display-none')){
+                next.classList.remove('display-none');
+            } else if (!next.classList.contains('display-none')){
+                next.classList.add('display-none');
+            }
+            next = next.nextElementSibling;
+        }
+    }, false);
+}
+
 
 window.addEventListener("resize", function() {
     var parent = canvas.parentElement;
     console.log('resized')
     canvas.height = parent.offsetHeight;
     canvas.width = parent.offsetWidth;
-    // paper.project.view.update();
+    
     paper.project.layers[0].remove()
     drawGlyph(han);
-    // canvas.height = 
+    
+    //resize everything
+    var glyphInfoDiv = document.getElementById('glyph-info-menu');
+    glyphInfoDiv.setAttribute('style','height:'+window.innerHeight-90);
 })
 
 var redrawButton = document.querySelector('.redraw');
@@ -159,6 +203,40 @@ function listAll(o){
 // ********************************** //
 // drawing glyphs                     //
 // ********************************** //
+
+//private functions
+/**
+ * Calculate Unicode Hangul Johap from Hangul Jamo Unicode 
+ * @function
+ * johap
+ * @memberof public
+ * @param  {Object} arrIn - array with 3 unicode number fo hangul Jamo(Number)
+ * @returns decimal unicode number
+ */
+function johap(arrIn){
+    var ret = 0;
+    var index1 = arrIn[0]
+    if(!arrIn.length === 3){
+        console.log('Cannot Johap() ERR(Input is not Valid Check input array length)');
+        return;
+    }else {
+        
+    }
+    return ret;
+}
+
+// returns array of possible 
+loadGlyphList(glyphSelection);
+function loadGlyphList(arr){
+
+    var chosungList = arr[0].split();
+    var joongsungList = arr[1].split();
+    var jongsungList = arr[2].split();
+
+    for()
+    font.
+};
+
 drawGlyph(han);
 function drawGlyph(char){
     console.log('drawing init')
