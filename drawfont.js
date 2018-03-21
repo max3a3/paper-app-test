@@ -19,6 +19,32 @@ paper.setup(CANVAS);
 
 
 // ********************************** //
+// HANGUL JAMO                        //
+// ********************************** //
+const CHO = [
+        'ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ',
+        'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ',
+        'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ',
+        'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'
+    ],
+    JUNG = [
+        'ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ',
+        'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ',
+        'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ',
+        'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ',
+        'ㅣ'
+    ],
+    JONG = [
+        '', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ',
+        'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ',
+        'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ',
+        'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ',
+        'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ',
+        'ㅌ', 'ㅍ', 'ㅎ'
+    ];
+
+
+// ********************************** //
 // DOM selections                     //
 // ********************************** //
 
@@ -235,9 +261,8 @@ function listAll(o){
 //private functions
 /**
  * Calculate Unicode Hangul Johap from Hangul Jamo Unicode 
- * @function
- * johap
- * @memberof public
+ * @function johap
+ * @public
  * @param  {Object} arrIn - array with 3 unicode number fo hangul Jamo(Number)
  * @returns decimal unicode number
  */
@@ -245,6 +270,7 @@ function johap(arrIn){
     var ret = 0;
     var index1 = arrIn[0]-12593;
     var index2 = arrIn[1]-12622;
+    // var index3 = arrIn[2]-
 
     if(!arrIn.length === 3){
         console.log('Cannot Johap() ERR(Input is not Valid Check input array length)');
