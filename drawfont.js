@@ -1,8 +1,20 @@
+/**
+ * Product of ONE MORE WAY
+ * (c) Moum app
+ * http://slainger.me v0.0.1 | (c) Min Seong Kim a.k.a.SalingerMS
+ * Any Copy Prohibited
+ * Uses opentype.js by Frederik De Bleser and other contributors
+ *      Paper.js by Juerg Lehni & Jonathan Puckey
+ */
+
+// ********************************** //
+// MADATORY IMPORTS                   //
+// ********************************** //
 const remote = require('electron').remote;
 const opentype = remote.getGlobal('opentype');
 const path = require('path');
 const paper = require('paper');
-// import 
+
 
 // ********************************** //
 // public variables                   //
@@ -15,8 +27,17 @@ let CANVAS = document.getElementById('canvas');
 let CTX = CANVAS.getContext("2d");
 let GLYPH_SELECTION = ['','',''];
 let GLYPH_TABLE_LIST = [];
+let CHAR_TO_DRAW = '한'
+var GLYPH_TO_DRAW = FONT.charToGlyph(CHAR_TO_DRAW);
+
+// ********************************** //
+// SETUP FOR APP                      //
+// ********************************** //
 paper.setup(CANVAS);
 
+loadFont(FONT_FILE_NAME);
+
+loadGlyphTable(GLYPH_TO_DRAW);
 
 // ********************************** //
 // HANGUL JAMO                        //
@@ -49,8 +70,16 @@ const CHO = [
 // ********************************** //
 
 let $_indexButtons = document.querySelectorAll('.index-button');
-let $_rightMenuBarAll = document.querySelectorAll('.menu-right .bar');
 let $_redrawButton = document.querySelector('.redraw');
+
+let $_rightMenuBarAll = document.querySelectorAll('.menu-right .bar');
+
+let $_glyphTAB = document.getElementById('glyphs');
+let $_fontinfoTAB = document.getElementById('fontinfo');
+let $_fonttableTAB = document.getElementById('fonttable');
+let $_glyphMenu = document.getElementById('glyph-menu');
+let $_fontinfoMenu = document.getElementById('glyph-info-menu');
+let $_fonttableMenu = document.getElementById('table-menu');
 
 
 // ********************************** //
@@ -64,7 +93,6 @@ let $_redrawButton = document.querySelector('.redraw');
  * @param none
  * these will run onload()
 */
-
 function addEventListers(){
     /* 
     to LEFT-MENU, glyph selection buttons, ADD functions --
@@ -129,8 +157,6 @@ function addEventListers(){
     }
 }
 
-
-
 window.addEventListener("resize", function() {
     var parent = CANVAS.parentElement;
     console.log('resized')
@@ -138,29 +164,21 @@ window.addEventListener("resize", function() {
     CANVAS.width = parent.offsetWidth;
     
     paper.project.layers[0].remove()
-    drawGlyph(han);
+    drawGlyph(GLYPH_TO_DRAW);
     
     //resize everything
     var glyphInfoDiv = document.getElementById('glyph-info-menu');
     glyphInfoDiv.setAttribute('style','height:'+window.innerHeight-90);
 })
 
-
 $_redrawButton.addEventListener('click', function(){
-    drawGlyph(han);
+    drawGlyph(GLYPH_TO_DRAW);
 },false)
 
 
 // ********************************** //
 // right menu tab controls            //
 // ********************************** //
-
-let glyphTAB = document.getElementById('glyphs');
-let fontinfoTAB = document.getElementById('fontinfo');
-let fonttableTAB = document.getElementById('fonttable');
-let glyphMenu = document.getElementById('glyph-menu');
-let fontinfoMenu = document.getElementById('glyph-info-menu');
-let fonttableMenu = document.getElementById('table-menu');
 
 // let rightMenuTabs = document.querySelectorAll('.menu-selection div');
     // for(var i = 0; i < rightMenuTabs.length; i++){
@@ -183,32 +201,32 @@ let fonttableMenu = document.getElementById('table-menu');
 
 
 let clickTAB1 = function (){
-    glyphTAB.classList.add('selected');
-    fontinfoTAB.classList.remove('selected');
-    fonttableTAB.classList.remove('selected');
-    glyphMenu.classList.remove('display-none');
-    fontinfoMenu.classList.add('display-none');
-    fonttableMenu.classList.add('display-none');
+    $_glyphTAB.classList.add('selected');
+    $_fontinfoTAB.classList.remove('selected');
+    $_fonttableTAB.classList.remove('selected');
+    $_glyphMenu.classList.remove('display-none');
+    $_fontinfoMenu.classList.add('display-none');
+    $_fonttableMenu.classList.add('display-none');
 };
 let clickTAB2 = function (){
-    fontinfoTAB.classList.add('selected');
-    glyphTAB.classList.remove('selected');
-    fonttableTAB.classList.remove('selected');
-    fontinfoMenu.classList.remove('display-none');
-    glyphMenu.classList.add('display-none');
-    fonttableMenu.classList.add('display-none');
+    $_fontinfoTAB.classList.add('selected');
+    $_glyphTAB.classList.remove('selected');
+    $_fonttableTAB.classList.remove('selected');
+    $_fontinfoMenu.classList.remove('display-none');
+    $_glyphMenu.classList.add('display-none');
+    $_fonttableMenu.classList.add('display-none');
 };
 let clickTAB3 = function (){
-    fonttableTAB.classList.add('selected');
-    glyphTAB.classList.remove('selected');
-    fontinfoTAB.classList.remove('selected');
-    fonttableMenu.classList.remove('display-none');
-    glyphMenu.classList.add('display-none');
-    fontinfoMenu.classList.add('display-none');
+    $_fonttableTAB.classList.add('selected');
+    $_glyphTAB.classList.remove('selected');
+    $_fontinfoTAB.classList.remove('selected');
+    $_fonttableMenu.classList.remove('display-none');
+    $_glyphMenu.classList.add('display-none');
+    $_fontinfoMenu.classList.add('display-none');
 };
-glyphTAB.addEventListener("click", clickTAB1, false);
-fontinfoTAB.addEventListener("click", clickTAB2, false);
-fonttableTAB.addEventListener("click", clickTAB3, false);
+$_glyphTAB.addEventListener("click", clickTAB1, false);
+$_fontinfoTAB.addEventListener("click", clickTAB2, false);
+$_fonttableTAB.addEventListener("click", clickTAB3, false);
 
 function loadGlyphTable(char){
     var table = document.getElementById('glyph-info-table');
@@ -227,10 +245,6 @@ function loadGlyphTable(char){
 // Loading default fonts              //
 // ********************************** //
 
-loadFont(FONT_FILE_NAME);
-// renderText('한');
-var han = FONT.charToGlyph('한');
-loadGlyphTable(han);
 
 function loadFont(fontFileName){
     FONT = opentype.loadSync(fontFileName);
@@ -291,7 +305,7 @@ function loadGlyphList(arr){
 
 };
 
-drawGlyph(han);
+drawGlyph(GLYPH_TO_DRAW);
 function drawGlyph(char){
     console.log('drawing init')
     var tempPath = new paper.Path({
@@ -301,7 +315,7 @@ function drawGlyph(char){
     for(idx in points){
         var p = points[idx];
         if(p.type !== 'M' && p.type !== 'Z')
-        console.log('drawing',p.x, p.y);
+        // console.log('drawing',p.x, p.y);
         var min = CANVAS.width>CANVAS.height ? CANVAS.height : CANVAS.width;
         var tempPoint = new paper.Point((p.x*min/1000), CANVAS.height*0.75-(p.y*min/1000))
         tempPoint.selected = true;
@@ -347,10 +361,6 @@ function renderText(char) {
 // document.getElementById('load-default').addEventListener('click', function(){
 //     loadFont(fontFileName);
 // });
-
-
-
-
 
 // function onReadFile(e) {
 //     // document.getElementById('font-name').innerHTML = '';
