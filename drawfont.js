@@ -40,7 +40,7 @@ loadFont(FONT_FILE_NAME);
 
 let GLYPH_TO_DRAW = FONT.charToGlyph(CHAR_TO_DRAW);
 
-loadGlyphTable(GLYPH_TO_DRAW);
+loadGlyphInfo(GLYPH_TO_DRAW);
 
 // ********************************** //
 // HANGUL JAMO                        //
@@ -186,6 +186,17 @@ $_redrawButton.addEventListener('click', function(){
     drawGlyph(GLYPH_TO_DRAW);
 },false)
 
+let searchInput = document.querySelector("input.search")
+    searchInput.addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        console.log(this.value);
+        this.blur();
+        GLYPH_TABLE_LIST = this.value;
+        //LOAD GLYPH TABLE
+        this.value = '';
+    }
+});
 
 // ********************************** //
 // right menu tab controls            //
@@ -242,7 +253,7 @@ $_glyphTAB.addEventListener("click", clickTAB1, false);
 $_fontinfoTAB.addEventListener("click", clickTAB2, false);
 $_fonttableTAB.addEventListener("click", clickTAB3, false);
 
-function loadGlyphTable(char){
+function loadGlyphInfo(char){
     var table = document.getElementById('glyph-info-table');
     table.innerHTML = '<tr><th>type</th><th>x</th><th>y</th></tr>'
     var tablehtml = '';
@@ -309,9 +320,7 @@ function johap(arrIn){
 // String.fromCharCode(johap(['ㄱ','ㅏ','ㄴ']));
 // String.fromCharCode(johap(GLYPH_SELECTION));
 
-
 // returns array of possible 
-
 function toGlyphList(arr){
     GLYPH_TABLE_LIST = [];
     if(arr[0]+arr[1]+arr[2] == ''){
@@ -356,8 +365,18 @@ function drawGlyph(char){
         tempPoint.selected = true;
         tempPath.add(tempPoint);
     }
-    loadGlyphTable(char);
+    loadGlyphInfo(char);
 }
+
+//draw thumbnail canvas
+function drawThumbNail(){
+    let $_allCanvas = document.querySelectorAll('#glyph_list .glyph-list canvas');
+    for(i in $_allCanvas){
+        paper.setup($_allCanvas[i]);
+        drawGlyph(GLYPH_TO_DRAW);
+    }
+}
+
 
 // enableHighDPICanvas(canvas);
 
