@@ -451,10 +451,10 @@ function draw (ctx, path) {
     }
 };
 
-var ctx = $_allCanvas[0].getContext('2d');
-ctx.clearRect(0,0,85,85);
-var glyph1 = FONT.charToGlyph('각');
-var path1 = glyph1.getPath()
+// var ctx = $_allCanvas[0].getContext('2d');
+// ctx.clearRect(0,0,85,85);
+// var glyph1 = FONT.charToGlyph('각');
+// var path1 = glyph1.getPath()
 
 // enableHighDPICanvas(canvas);
 
