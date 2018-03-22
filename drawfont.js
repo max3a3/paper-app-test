@@ -409,15 +409,47 @@ function drawGlyphSmall(canvas, index){
     ctx.fillStyle = '#FFFFFF';
 
     // var path = glyph.getPath(x0, fontBaseline, fontSize);
-    var path = glyph.getPath(x0, fontBaseline, fontSize);
+    var temppath = glyph.getPath(x0, fontBaseline, fontSize);
     // console.log(path);
     // for(i in path.commands){
     //     var temp = path.commands[i];
     //     console.log(temp.type,temp.x,temp.y);
     // }
-    path.fill = "#333";
-    // path.draw(ctx);
+    temppath.fill = "#333";
+    console.log('drawing glyph'+char);
+    draw(ctx,temppath);
 }
+
+function draw (ctx, path) {
+    var this$1 = path;
+
+    ctx.beginPath();
+    for (var i = 0; i < path.commands.length; i += 1) {
+        var cmd = this$1.commands[i];
+        if (cmd.type === 'M') {
+            ctx.moveTo(cmd.x, cmd.y);
+        } else if (cmd.type === 'L') {
+            ctx.lineTo(cmd.x, cmd.y);
+        } else if (cmd.type === 'C') {
+            ctx.bezierCurveTo(cmd.x1, cmd.y1, cmd.x2, cmd.y2, cmd.x, cmd.y);
+        } else if (cmd.type === 'Q') {
+            ctx.quadraticCurveTo(cmd.x1, cmd.y1, cmd.x, cmd.y);
+        } else if (cmd.type === 'Z') {
+            ctx.closePath();
+        }
+    }
+
+    if (path.fill) {
+        ctx.fillStyle = path.fill;
+        ctx.fill();
+    }
+
+    if (path.stroke) {
+        ctx.strokeStyle = path.stroke;
+        ctx.lineWidth = path.strokeWidth;
+        ctx.stroke();
+    }
+};
 
 var ctx = $_allCanvas[0].getContext('2d');
 ctx.clearRect(0,0,85,85);
