@@ -120,7 +120,7 @@ function addEventListers(){
             // console.log(this.className+' to ->');
             var glyphChar = this.innerText;
             var glyphIndex = 0;
-            console.log('parent : ' + this.parentElement.id);
+            // console.log('parent : ' + this.parentElement.id);
             switch(this.parentElement.id){
                 case 'first'  : 
                     glyphIndex = 0;
@@ -132,8 +132,8 @@ function addEventListers(){
                     glyphIndex = 2;
                     break;
             }
-            console.log('glyphChar : ' + glyphChar);
-            console.log('glyphIndex : ' + glyphIndex);
+            // console.log('glyphChar : ' + glyphChar);
+            // console.log('glyphIndex : ' + glyphIndex);
             if(this.classList.contains('index-selected')){            
                 this.classList.remove('index-selected');
                 GLYPH_SELECTION[glyphIndex] = GLYPH_SELECTION[glyphIndex].replace(glyphChar, '');
@@ -142,7 +142,7 @@ function addEventListers(){
                 this.classList.add('index-selected');
                 GLYPH_SELECTION[glyphIndex] += glyphChar;
             }
-            console.log(GLYPH_SELECTION);
+            // console.log(GLYPH_SELECTION);
             // console.log(this.className);
             // @TODO
             toGlyphList(GLYPH_SELECTION);
@@ -157,7 +157,7 @@ function addEventListers(){
     for(i in $_rightMenuBarAll){
         if(typeof i != Number) break;
         $_rightMenuBarAll[i].addEventListener('click', function(){
-            console.log('clicked bar');
+            // console.log('clicked bar');
             var next = this.nextElementSibling;
             while(next && !next.classList.contains('bar')){
                 if(next.classList.contains('display-none')){
@@ -173,7 +173,7 @@ function addEventListers(){
 
 window.addEventListener("resize", function() {
     var parent = CANVAS.parentElement;
-    console.log('resized')
+    // console.log('resized')
     CANVAS.height = parent.offsetHeight;
     CANVAS.width = parent.offsetWidth;
     
@@ -197,9 +197,13 @@ let searchInput = document.querySelector("input.search")
     if (event.keyCode === 13) {
         console.log(this.value);
         this.blur();
-        GLYPH_TABLE_LIST = this.value;
+        var tempArr = this.value.split('');
+        GLYPH_TABLE_LIST = tempArr.forEach(function(e,i,tempArr){
+            tempArr[i] = e.charCodeAt(0);
+        });
         //LOAD GLYPH TABLE
         this.value = '';
+        drawThumbNail();
     }
 });
 
@@ -330,7 +334,7 @@ function toGlyphList(arr){
     GLYPH_TABLE_LIST = [];
     if(arr[0]+arr[1]+arr[2] == ''){
         GLYPH_TABLE_LIST = '가각갂갃간갅갆갇갈갉갊갋갌갍갎갏감갑값갓갔강갖갗갘같갚갛개객갞갟갠갡갢갣갤갥갦갧갨갩갪갫갬갭갮갯갰갱갲갳갴갵갶갷갸갹갺갻갼갽갾갿걀걁걂걃걄걅걆걇걈걉걊걋걌걍걎걏걐걑걒걓걔걕걖걗걘걙걚걛걜걝걞걟걠걡걢걣'.split();
-        console.log(GLYPH_TABLE_LIST);
+        // console.log(GLYPH_TABLE_LIST);
         return;
     }
 
@@ -341,7 +345,7 @@ function toGlyphList(arr){
     for(i in list1){
         for(j in list2){
             for(k in list3){
-                console.log('초성 : ' + list1[i],'중성 : ' + list2[j],'종성 : ' + list3[k])
+                // console.log('초성 : ' + list1[i],'중성 : ' + list2[j],'종성 : ' + list3[k])
                 GLYPH_TABLE_LIST.push(johap([list1[i],list2[j],list3[k]]));
             }
         }
@@ -356,14 +360,14 @@ function toGlyphList(arr){
 
 drawGlyph(GLYPH_TO_DRAW);
 function drawGlyph(char){
-    console.log('drawing init')
+    // console.log('drawing init')
     var tempPath = new paper.Path({
         strokeColor: 'black'
       });
     var points = char.path.commands;
     for(idx in points){
         var p = points[idx];
-        if(p.type !== 'M' && p.type !== 'Z')
+        // if(p.type !== 'M' && p.type !== 'Z')
         // console.log('drawing',p.x, p.y);
         var min = CANVAS.width>CANVAS.height ? CANVAS.height : CANVAS.width;
         var tempPoint = new paper.Point((p.x*min/1000), CANVAS.height*0.75-(p.y*min/1000))
@@ -375,11 +379,20 @@ function drawGlyph(char){
 
 //draw thumbnail canvas
 function drawThumbNail(){
-    for(i in $_allCanvas){
+    // for(i in $_allCanvas){
+    //     clearCanvas($_allCanvas[i]);
+    // };
+    for(var i = 0; i < 24; i++){
         var check = drawGlyphSmall($_allCanvas[i], i);
         if(check === -1) break;
-    }
+        if(check === -2) continue;
+    };
 }
+
+// function clearCanvas(canvas){
+//     var ctx = canvas.getContext('2d')
+//     ctx.clearRect(0,0,canvas.offsetWidth, canvas.offsetHeight);
+// }
 
 //@TODO
 function drawGlyphSmall(canvas, index){
@@ -387,25 +400,28 @@ function drawGlyphSmall(canvas, index){
     if(GLYPH_TABLE_LIST[index] == undefined) return -1;
     var char = String.fromCharCode(GLYPH_TABLE_LIST[index]);
 
-    canvas.setAttribute('id', ('UNI'+GLYPH_TABLE_LIST[index]));
     var w = canvas.offsetWidth
     var h = canvas.offsetHeight
+    canvas.setAttribute('id', ('UNI'+GLYPH_TABLE_LIST[index]));
+    canvas.setAttribute('width',w);
+    canvas.setAttribute('height',h);
 
     var ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
 
     ctx.fillStyle = '#AAA';
-    ctx.font = '9px "Open Sans"';
-    ctx.fillText(char, 2, canvas.offsetHeight - 2);
-    var glyph = FONT.charToGlyph(char),
-        glyphWidth = glyph.advanceWidth * 0.01,
+    ctx.font = '12px "Open Sans"';
+    ctx.fillText(char, 5, canvas.offsetHeight - 5);
+    var glyph = FONT.charToGlyph(char);
+    if(glyph.xMin == undefined) return -2;
+    var glyphWidth = glyph.advanceWidth * 0.05,
         xmin = (w - glyphWidth) / 2,
         xmax = (w + glyphWidth) / 2,
         x0 = xmin;
         maxHeight = F_HEAD.yMax - F_HEAD.yMin;
-        fontBaseline = h * F_HEAD.yMax / maxHeight;
+        fontBaseline = (h * F_HEAD.yMax / maxHeight)-8;
         fontScale = Math.min(w / (F_HEAD.xMax - F_HEAD.xMin), h / maxHeight)
-        fontSize = fontScale * FONT.unitsPerEm;
+        fontSize = fontScale * FONT.unitsPerEm *0.6;
     ctx.fillStyle = '#FFFFFF';
 
     // var path = glyph.getPath(x0, fontBaseline, fontSize);
@@ -415,8 +431,8 @@ function drawGlyphSmall(canvas, index){
     //     var temp = path.commands[i];
     //     console.log(temp.type,temp.x,temp.y);
     // }
-    temppath.fill = "#333";
-    console.log('drawing glyph'+char);
+    temppath.fill = "#666";
+    // console.log('drawing glyph'+char);
     draw(ctx,temppath);
 }
 
