@@ -38,6 +38,7 @@ paper.setup(CANVAS);
 
 loadFont(FONT_FILE_NAME);
 
+let F_HEAD = FONT.tables.head;
 let GLYPH_TO_DRAW = FONT.charToGlyph(CHAR_TO_DRAW);
 
 loadGlyphInfo(GLYPH_TO_DRAW);
@@ -87,6 +88,9 @@ let $_fonttableMenu = document.getElementById('table-menu');
 let $_glyphDiv = document.getElementById('glyph-menu');
 let $_glyphInfoDiv = document.getElementById('glyph-info-menu');
 let $_tableDiv = document.getElementById('table-menu');
+
+let $_allCanvas = document.querySelectorAll('#glyph_list .glyph-list canvas');
+
 
 // ********************************** //
 // left menu tab controls             //
@@ -142,6 +146,7 @@ function addEventListers(){
             // console.log(this.className);
             // @TODO
             toGlyphList(GLYPH_SELECTION);
+            drawThumbNail();
         }, false)
     }
     /* 
@@ -370,41 +375,54 @@ function drawGlyph(char){
 
 //draw thumbnail canvas
 function drawThumbNail(){
-    let $_allCanvas = document.querySelectorAll('#glyph_list .glyph-list canvas');
     for(i in $_allCanvas){
-        paper.setup($_allCanvas[i]);
-        drawGlyph(GLYPH_TO_DRAW);
+        var check = drawGlyphSmall($_allCanvas[i], i);
+        if(check === -1) break;
     }
 }
 
 //@TODO
-function drawGlyphSmall(){
-    var cellMarkSize = 6;
+function drawGlyphSmall(canvas, index){
+
+    if(GLYPH_TABLE_LIST[index] == undefined) return -1;
+    var char = String.fromCharCode(GLYPH_TABLE_LIST[index]);
+
+    canvas.setAttribute('id', ('UNI'+GLYPH_TABLE_LIST[index]));
+    var w = canvas.offsetWidth
+    var h = canvas.offsetHeight
+
     var ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, cellWidth, cellHeight);
-    if (glyphIndex >= font.numGlyphs) return;
+    ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
 
     ctx.fillStyle = '#AAA';
     ctx.font = '9px "Open Sans"';
-    ctx.fillText(glyphIndex, 2, cellHeight - 2);
-    var glyph = font.glyphs[glyphIndex],
-        glyphWidth = glyph.advanceWidth * fontScale,
-        xmin = (cellWidth - glyphWidth) / 2,
-        xmax = (cellWidth + glyphWidth) / 2,
+    ctx.fillText(char, 2, canvas.offsetHeight - 2);
+    var glyph = FONT.charToGlyph(char),
+        glyphWidth = glyph.advanceWidth * 0.01,
+        xmin = (w - glyphWidth) / 2,
+        xmax = (w + glyphWidth) / 2,
         x0 = xmin;
-
-    // ctx.fillStyle = '#e67e22';
-    // ctx.fillRect(xmin - cellMarkSize + 2, fontBaseline, cellMarkSize, 2);
-    // ctx.fillRect(xmin, fontBaseline, 2, cellMarkSize);
-    // ctx.fillRect(xmax, fontBaseline, cellMarkSize, 2);
-    // ctx.fillRect(xmax, fontBaseline, 2, cellMarkSize);
-
+        maxHeight = F_HEAD.yMax - F_HEAD.yMin;
+        fontBaseline = h * F_HEAD.yMax / maxHeight;
+        fontScale = Math.min(w / (F_HEAD.xMax - F_HEAD.xMin), h / maxHeight)
+        fontSize = fontScale * FONT.unitsPerEm;
     ctx.fillStyle = '#FFFFFF';
 
+    // var path = glyph.getPath(x0, fontBaseline, fontSize);
     var path = glyph.getPath(x0, fontBaseline, fontSize);
+    // console.log(path);
+    // for(i in path.commands){
+    //     var temp = path.commands[i];
+    //     console.log(temp.type,temp.x,temp.y);
+    // }
     path.fill = "#333";
-    path.draw(ctx);
+    // path.draw(ctx);
 }
+
+var ctx = $_allCanvas[0].getContext('2d');
+ctx.clearRect(0,0,85,85);
+var glyph1 = FONT.charToGlyph('각');
+var path1 = glyph1.getPath()
 
 // enableHighDPICanvas(canvas);
 
