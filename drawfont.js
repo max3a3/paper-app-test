@@ -22,7 +22,7 @@ const paper = require('paper');
 
 let FONT;
 let FONT_DEFAULT;
-let FONT_FILE_NAME = 'fonts/SDGTM.ttf';
+let FONT_FILE_NAME = 'fonts/NanumBarunGothic.woff';
 
 let CANVAS = document.getElementById('canvas');
 let CTX = CANVAS.getContext("2d");
@@ -177,13 +177,12 @@ window.addEventListener("resize", function() {
     CANVAS.height = parent.offsetHeight;
     CANVAS.width = parent.offsetWidth;
     
-    paper.project.layers[0].remove()
-    drawGlyph(GLYPH_TO_DRAW);
-    
     //resize everything
     $_tableDiv.setAttribute('style', 'height:'+(window.innerHeight-90)+'px');
     $_glyphInfoDiv.setAttribute('style', 'height:'+(window.innerHeight-90)+'px');
     $_glyphDiv.setAttribute('style', 'height:'+(window.innerHeight-90)+'px');
+
+    drawGlyph(GLYPH_TO_DRAW);
 
 })
 
@@ -198,9 +197,10 @@ let searchInput = document.querySelector("input.search")
         console.log(this.value);
         this.blur();
         var tempArr = this.value.split('');
-        GLYPH_TABLE_LIST = tempArr.forEach(function(e,i,tempArr){
+        tempArr.forEach(function(e,i,tempArr){
             tempArr[i] = e.charCodeAt(0);
         });
+        GLYPH_TABLE_LIST = tempArr;
         //LOAD GLYPH TABLE
         this.value = '';
         drawThumbNail();
@@ -274,9 +274,7 @@ function loadGlyphInfo(char){
     }
     table.innerHTML += tablehtml;
 }
-var id;
-// for(var i=0; i)
-'<canvas class="glyph-list" id="'+id+'"></canvas>'
+
 
 // ********************************** //
 // Loading default fonts              //
@@ -350,17 +348,26 @@ function toGlyphList(arr){
             }
         }
     }
-    console.log(GLYPH_TABLE_LIST);
-    var str = '';
-    for(var i = 0; i < 100; i++){
-        str += String.fromCharCode(GLYPH_TABLE_LIST[i]);
-    }
-    console.log(str);
+    // console.log(GLYPH_TABLE_LIST);
+    // var str = '';
+    // for(var i = 0; i < 100; i++){
+    //     str += String.fromCharCode(GLYPH_TABLE_LIST[i]);
+    // }
+    // console.log(str);
 };
 
 drawGlyph(GLYPH_TO_DRAW);
+
+function clearCanvas(){
+    var tempctx = CANVAS.getContext('2d');
+    tempctx.clearRect(0,0,CANVAS.width,CANVAS.height);
+    paper.setup(CANVAS);
+}
+
 function drawGlyph(char){
-    // console.log('drawing init')
+    clearCanvas();
+    //paper.projects.clear(CANVAS);
+    // console.log('drawing init');
     var tempPath = new paper.Path({
         strokeColor: 'black'
       });
@@ -370,7 +377,7 @@ function drawGlyph(char){
         // if(p.type !== 'M' && p.type !== 'Z')
         // console.log('drawing',p.x, p.y);
         var min = CANVAS.width>CANVAS.height ? CANVAS.height : CANVAS.width;
-        var tempPoint = new paper.Point((p.x*min/1000), CANVAS.height*0.75-(p.y*min/1000))
+        var tempPoint = new paper.Point((p.x*min/1200), CANVAS.height*0.75-(p.y*min/1200))
         tempPoint.selected = true;
         tempPath.add(tempPoint);
     }
@@ -405,6 +412,15 @@ function drawGlyphSmall(canvas, index){
     canvas.setAttribute('id', ('UNI'+GLYPH_TABLE_LIST[index]));
     canvas.setAttribute('width',w);
     canvas.setAttribute('height',h);
+
+    // console.log('adding eventlistener')
+    canvas.addEventListener('click', function(){
+        var uni = this.id.substring(3);
+        CHAR_TO_DRAW = String.fromCharCode(uni);
+        GLYPH_TO_DRAW = FONT.charToGlyph(CHAR_TO_DRAW);
+        // console.log('CHAR_TO_DRAW : ',CHAR_TO_DRAW,' GLYPH_TO_DRAW : ',GLYPH_TO_DRAW)
+        drawGlyph(GLYPH_TO_DRAW);
+    }, false)
 
     var ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
