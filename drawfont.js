@@ -14,7 +14,7 @@ const remote = require('electron').remote;
 // const opentype = remote.getGlobal('opentype');
 const path = require('path');
 const paper = require('paper');
-let opentype = require('opentype.js');
+const opentype = require('opentype.js');
 
 
 // ********************************** //

@@ -27,6 +27,10 @@ app.on('ready', ()=>{
   // show when ready to show
   mainWindow.on('ready-to-show', () => {
     mainWindow.show();
+    // check web contents
+    // var cont = mainWindow.webContents;
+    // console.log(cont);
+    
     //install devtron to devtools
     //@only for development
     // require('devtron').install();
