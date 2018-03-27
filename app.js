@@ -29,8 +29,8 @@ app.on('ready', ()=>{
     mainWindow.show();
     //install devtron to devtools
     //@only for development
-    require('devtron').install();
-    mainWindow.openDevTools();
+    // require('devtron').install();
+    // mainWindow.openDevTools();
     // mainWindow.webContents.send('init-opentype', opentype);
   })
   // testWindow.on('ready-to-show', () => {
