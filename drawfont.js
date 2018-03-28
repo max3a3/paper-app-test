@@ -11,10 +11,10 @@
 // MADATORY IMPORTS                   //
 // ********************************** //
 const remote = require('electron').remote;
-// const opentype = remote.getGlobal('opentype');
+const opentype = remote.getGlobal('opentype');
 const path = require('path');
 const paper = require('paper');
-const opentype = require('opentype.js');
+// const opentype = require('opentype.js');
 
 
 // ********************************** //
@@ -365,24 +365,27 @@ function clearCanvas(){
     paper.setup(CANVAS);
 }
 
-function drawGlyph(char){
+function drawGlyph(glyph){
     clearCanvas();
-    //paper.projects.clear(CANVAS);
-    // console.log('drawing init');
-    var tempPath = new paper.Path({
-        strokeColor: 'black'
-      });
-    var points = char.path.commands;
-    for(idx in points){
-        var p = points[idx];
-        // if(p.type !== 'M' && p.type !== 'Z')
-        // console.log('drawing',p.x, p.y);
-        var min = CANVAS.width>CANVAS.height ? CANVAS.height : CANVAS.width;
-        var tempPoint = new paper.Point((p.x*min/1200), CANVAS.height*0.75-(p.y*min/1200))
-        tempPoint.selected = true;
-        tempPath.add(tempPoint);
-    }
-    loadGlyphInfo(char);
+    var tempGlyph = FONT.charToGlyph(glyph)
+    var temppath = tempGlyph.path;
+    draw(CTX,temppath);
+    // //paper.projects.clear(CANVAS);
+    // // console.log('drawing init');
+    // var tempPath = new paper.Path({
+    //     strokeColor: 'black'
+    //   });
+    // var points = glyph.path.commands;
+    // for(idx in points){
+    //     var p = points[idx];
+    //     // if(p.type !== 'M' && p.type !== 'Z')
+    //     // console.log('drawing',p.x, p.y);
+    //     var min = CANVAS.width>CANVAS.height ? CANVAS.height : CANVAS.width;
+    //     var tempPoint = new paper.Point((p.x*min/1200), CANVAS.height*0.75-(p.y*min/1200))
+    //     tempPoint.selected = true;
+    //     tempPath.add(tempPoint);
+    // }
+    loadGlyphInfo(glyph);
 }
 
 //draw thumbnail canvas
