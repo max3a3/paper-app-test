@@ -2,20 +2,21 @@
   "name": "paper-app-test",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron app.js",
+    "start": "electron .",
     "debug": "electron --inspect=5858 app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "SalingerMS",
   "license": "ISC",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "electron-log": "^2.2.14"
   },
   "dependencies": {
-    "electron": "^2.0.0-beta.5",
+    "electron": "^1.8.4",
     "electron-pug": "^1.5.1",
     "fontkit": "^1.7.7",
     "jquery": "^3.3.1",
