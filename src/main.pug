@@ -1,0 +1,186 @@
+doctype html
+html
+  head
+    //- link(rel="stylesheet", href="./style/css/materialize.css")
+    link(rel="stylesheet", href="../style/style.css")
+    title Moum
+  body
+    .nav-wrapper
+      span.brand-logo Moum
+      ul#nav-mobile
+        .nav-button#nav-help(href='#') Help
+          //- a(href='#') Help
+        .nav-button#nav-load(href='#') Load New
+          //- a(href='#') Load New
+        .nav-button#nav-myfonts(href='#') My Fonts
+          //- a(href='#') My Fonts
+    //- canvas(id="myCanvas")
+    .main-wrapper
+      .menu-left
+        input.search(name="search",type="text", placeholder="Search Glyphs")
+        .search-selection
+          .bar 초성
+          .index#first
+            .index-button ㄱ
+            .index-button ㄲ
+            .index-button ㄴ
+            .index-button ㄷ
+            .index-button ㄸ
+            .index-button ㄹ
+            .index-button ㅁ
+            .index-button ㅂ
+            .index-button ㅃ
+            .index-button ㅅ
+            .index-button ㅆ
+            .index-button ㅇ
+            .index-button ㅈ
+            .index-button ㅉ
+            .index-button ㅊ
+            .index-button ㅋ
+            .index-button ㅌ
+            .index-button ㅍ
+            .index-button ㅎ
+          .bar 중성
+          .index#second
+            .index-button ㅏ
+            .index-button ㅐ
+            .index-button ㅑ
+            .index-button ㅒ
+            .index-button ㅓ
+            .index-button ㅔ
+            .index-button ㅕ
+            .index-button ㅖ
+            .index-button ㅗ
+            .index-button ㅘ
+            .index-button ㅙ
+            .index-button ㅚ
+            .index-button ㅛ
+            .index-button ㅜ
+            .index-button ㅝ
+            .index-button ㅞ
+            .index-button ㅟ
+            .index-button ㅠ
+            .index-button ㅡ
+            .index-button ㅢ
+            .index-button ㅣ
+          .bar 종성
+          .index#third
+            .index-button  
+            .index-button ㄱ
+            .index-button ㄲ
+            .index-button ㄳ
+            .index-button ㄴ
+            .index-button ㄵ
+            .index-button ㄶ
+            .index-button ㄷ
+            .index-button ㄹ
+            .index-button ㄺ
+            .index-button ㄻ
+            .index-button ㄼ
+            .index-button ㄽ
+            .index-button ㄾ
+            .index-button ㄿ
+            .index-button ㅀ
+            .index-button ㅁ
+            .index-button ㅂ
+            .index-button ㅄ
+            .index-button ㅅ
+            .index-button ㅆ
+            .index-button ㅇ
+            .index-button ㅈ
+            .index-button ㅊ
+            .index-button ㅋ
+            .index-button ㅌ
+            .index-button ㅍ
+            .index-button ㅎ
+          .bar.redraw 재출력
+      .main-canvas
+        canvas#canvas
+      .menu-right
+        .menu-selection
+          .menu-tab#glyphs glyphs
+          .menu-tab#fontinfo glyph info
+          .menu-tab#fonttable font table
+        #glyph-menu.display-none
+          .bar#glyph-bar glyphs
+          #glyph_list
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+            .glyph-list
+              canvas
+        #glyph-info-menu.display-none
+          .bar info table
+          #glyph-info-wrapper
+            table#glyph-info-table
+                tr
+                  th type
+                  th X
+                  th Y
+          .bar head table
+          .bar head table
+          .bar head table
+          .bar head table
+          .bar head table
+          .bar head table
+          .bar head table
+          .bar head table
+          .bar head table
+        #table-menu.display-none
+          .bar head table
+          .bar head table
+          .bar head table
+          .bar head table
+          .bar head table
+          .bar head table
+          .bar head table
+          .bar head table
+          .bar head table
+          .bar head table
+//- script(type='text/javascript',src="draw2.js")
+script(type='text/javascript',src="drawfont.js")
+//- script(type='text/javascript',src='./style/js/jquery-3.3.1.min.js')
+//- script(type='text/javascript',src='./style/js/materialize.js')

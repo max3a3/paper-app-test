@@ -245,7 +245,7 @@ a{
 
 @font-face {
   font-family: 'KoreanFont';
-  src: url('../style/YoonGothic.otf') format('opentype');
+  src: url('../style/fonts/YoonGothic.otf') format('opentype');
 }
 @font-face{
   font-family: 'EnglishFont';
