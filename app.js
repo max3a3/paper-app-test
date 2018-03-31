@@ -6,13 +6,13 @@ global.opentype = require('opentype.js');
 
 //Open Main window(first)
 app.on('ready', ()=>{
-  // let testWindow = new BrowserWindow({
-  //   show: false,
-  //   fullscreenWindowTitle: true,
-  //   width: 1000,
-  //   height: 1000
-  // });
-  // testWindow.loadURL(path.join('file://', __dirname, 'test.pug'));
+  let testWindow = new BrowserWindow({
+    show: false,
+    fullscreenWindowTitle: true,
+    width: 1000,
+    height: 1000
+  });
+  testWindow.loadURL(path.join('file://', __dirname, 'index.html'));
 
   let mainWindow = new BrowserWindow({
     //do not show at first
@@ -37,14 +37,14 @@ app.on('ready', ()=>{
     // mainWindow.openDevTools();
     // mainWindow.webContents.send('init-opentype', opentype);
   })
-  // testWindow.on('ready-to-show', () => {
-  //   testWindow.show();
+  testWindow.on('ready-to-show', () => {
+    testWindow.show();
   //   //install devtron to devtools
   //   //@only for development
   //   require('devtron').install();
   //   testWindow.openDevTools();
   //   // mainWindow.webContents.send('init-opentype', opentype);
-  // })
+  })
 
 
 });

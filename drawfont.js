@@ -12,7 +12,7 @@
 // ********************************** //
 const remote = require('electron').remote;
 // const opentype = remote.getGlobal('opentype');
-// import opentype from './opentype.js';
+// import opentype from 'opentype.js';
 // import drawIM from "./draw.js";
 const path = require('path');
 const paper = require('paper');

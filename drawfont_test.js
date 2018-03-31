@@ -1,0 +1,1 @@
+const opentype = require('opentype.js');
