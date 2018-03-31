@@ -5,11 +5,10 @@ var HtmlWebpackPugPlugin = require('html-webpack-pug-plugin');
 
 
 module.exports = {
-  entry: './src/app.js',
+  entry: './src/drawfont.js',
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: '/build'
   },
   mode: 'development',
   node: {
@@ -20,7 +19,7 @@ module.exports = {
       {
         use: 'babel-loader',
         test: /\.js$/,
-        exclude: /unused/
+        exclude: [/unused/, /node_modules/]
       },
       {
         test: /\.css$/,

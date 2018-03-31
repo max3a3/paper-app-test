@@ -24,7 +24,7 @@ app.on('ready', ()=>{
     fullscreenWindowTitle: true,
     icon: './'
   });
-  mainWindow.loadURL(path.join('file://', __dirname, 'main.pug'));
+  mainWindow.loadURL(path.join('file://', __dirname, '../dist','index.pug'));
   // show when ready to show
   mainWindow.on('ready-to-show', () => {
     mainWindow.show();
