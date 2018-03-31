@@ -17,7 +17,7 @@
   "dependencies": {
     "electron": "^2.0.0-beta.6",
     "electron-pug": "^1.5.1",
-    "opentype.js": "^0.7.2",
+    "opentype.js": "^0.6.9",
     "paper": "^0.11.5"
   }
 }
