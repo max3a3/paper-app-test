@@ -11,6 +11,7 @@ module.exports = {
     filename: 'bundle.js',
     publicPath: '/build'
   },
+  mode: 'development',
   node: {
     fs: 'empty'
   },
